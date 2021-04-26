@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Apprentice">
         <activity
-            android:name=".ScrollingActivity"
+            android:name=".ui.search.SearchActivity"
             android:label="@string/app_name"
             android:theme="@style/Theme.Apprentice.NoActionBar">
             <intent-filter>
