@@ -1,58 +1,67 @@
 package com.guvyerhopkins.apprentice.network
 
+import com.google.gson.InstanceCreator
 import com.google.gson.annotations.SerializedName
+import java.lang.reflect.Type
 
 data class PexelsResponse(
     @SerializedName("next_page")
-    val nextPage: String,
+    val nextPage: String = "",
     @SerializedName("page")
-    val page: Int,
+    val page: Int = 0,
     @SerializedName("per_page")
-    val perPage: Int,
+    val perPage: Int = 0,
     @SerializedName("photos")
-    val photos: List<Photo>,
+    val photos: List<Photo> = listOf(),
     @SerializedName("total_results")
-    val totalResults: Int
+    val totalResults: Int = 0
 )
 
 data class Photo(
     @SerializedName("avg_color")
-    val avgColor: String,
+    val avgColor: String = "",
     @SerializedName("height")
-    val height: Int,
+    val height: Int = 0,
     @SerializedName("id")
-    val id: Int,
+    val id: Int = 0,
     @SerializedName("liked")
-    val liked: Boolean,
+    val liked: Boolean = false,
     @SerializedName("photographer")
-    val photographer: String,
+    val photographer: String = "",
     @SerializedName("photographer_id")
-    val photographerId: Int,
+    val photographerId: Int = 0,
     @SerializedName("photographer_url")
-    val photographerUrl: String,
+    val photographerUrl: String = "",
     @SerializedName("src")
-    val src: Src,
+    val src: Src = Src(),
     @SerializedName("url")
-    val url: String,
+    val url: String = "",
     @SerializedName("width")
-    val width: Int
+    val width: Int = 0
 )
 
 data class Src(
     @SerializedName("landscape")
-    val landscape: String,
+    val landscape: String = "",
     @SerializedName("large")
-    val large: String,
+    val large: String = "",
     @SerializedName("large2x")
-    val large2x: String,
+    val large2x: String = "",
     @SerializedName("medium")
-    val medium: String,
+    val medium: String = "",
     @SerializedName("original")
-    val original: String,
+    val original: String = "",
     @SerializedName("portrait")
-    val portrait: String,
+    val portrait: String = "",
     @SerializedName("small")
-    val small: String,
+    val small: String = "",
     @SerializedName("tiny")
-    val tiny: String
+    val tiny: String = ""
 )
+
+class PexelsResponseAdapter :
+    InstanceCreator<PexelsResponse> {
+    override fun createInstance(type: Type?): PexelsResponse {
+        return PexelsResponse()
+    }
+}

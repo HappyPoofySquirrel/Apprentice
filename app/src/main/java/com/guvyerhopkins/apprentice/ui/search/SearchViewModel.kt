@@ -23,11 +23,11 @@ class SearchViewModel : ViewModel() {
 
     val photos = LivePagedListBuilder(
         dataSourceFactory, PagedList.Config.Builder()
-            .setInitialLoadSizeHint(5)
+            .setInitialLoadSizeHint(30)
             .setEnablePlaceholders(false)
-            .setPageSize(5 * 2)
+            .setPageSize(30 * 2)
             .build()
-    )
+    ).build()
 
     init {
 //        _state.value = State.LOADING
@@ -43,7 +43,9 @@ class SearchViewModel : ViewModel() {
 
     fun search(query: String) {
         //if() //return if query did not change
-        dataSourceFactory.updateQuery(query.trim())
+        if (query.length > 2) {
+            dataSourceFactory.updateQuery(query.trim())
+        }
     }
 
     override fun onCleared() {

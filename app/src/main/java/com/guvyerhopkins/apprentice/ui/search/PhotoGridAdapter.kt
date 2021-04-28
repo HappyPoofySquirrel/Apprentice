@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import coil.size.Scale
 import com.guvyerhopkins.apprentice.R
 import com.guvyerhopkins.apprentice.network.Photo
 
@@ -34,7 +35,9 @@ class PhotoGridAdapter :
     ) : RecyclerView.ViewHolder(view) {
 
         fun bind(photo: Photo) {
-            view.findViewById<ImageView>(R.id.grid_item_iv).load(photo.src.original)
+            view.findViewById<ImageView>(R.id.grid_item_iv).load(photo.src.small) {
+                scale(Scale.FILL)
+            }
         }
     }
 

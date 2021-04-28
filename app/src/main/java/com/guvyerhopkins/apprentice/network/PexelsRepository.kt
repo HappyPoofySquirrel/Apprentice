@@ -3,7 +3,7 @@ package com.guvyerhopkins.apprentice.network
 class PexelsRepository(private val service: PexelsApiService) {
 
     private suspend fun search(page: Int, perPage: Int, query: String) =
-        service.getPhotosAsync(page, perPage, query).await()
+        service.getPhotos(query, page, perPage)
 
     suspend fun getPhotos(
         page: Int,
