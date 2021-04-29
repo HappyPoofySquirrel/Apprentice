@@ -37,6 +37,8 @@ class PhotoGridAdapter :
         fun bind(photo: Photo) {
             view.findViewById<ImageView>(R.id.grid_item_iv).load(photo.src.small) {
                 scale(Scale.FILL)
+                crossfade(true)
+                placeholder(R.drawable.ic_image_placeholder)
             }
         }
     }
