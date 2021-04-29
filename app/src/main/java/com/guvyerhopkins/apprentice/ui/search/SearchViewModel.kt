@@ -23,9 +23,9 @@ class SearchViewModel : ViewModel() {
 
     val photos = LivePagedListBuilder(
         dataSourceFactory, PagedList.Config.Builder()
-            .setInitialLoadSizeHint(30)
+            .setInitialLoadSizeHint(24)
             .setEnablePlaceholders(false)
-            .setPageSize(30 * 2)
+            .setPageSize(24 * 2)
             .build()
     ).build()
 
@@ -33,7 +33,7 @@ class SearchViewModel : ViewModel() {
 //        _state.value = State.LOADING
 //        viewModelScope.launch {
 //            try {
-//                _photos.value = MarsApi.retrofitService.getPhotos()
+//                _photos.value = retrofitService.getPhotos()
 //                _state.value =State.SUCCESS
 //            } catch (e: Exception) {
 //                _state.value = State.ERROR

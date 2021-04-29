@@ -26,6 +26,7 @@ class SearchActivity : AppCompatActivity() {
         searchViewModel.photos.observe(this, { photos ->
             adapter.submitList(photos)
         })
+
         val editText = findViewById<EditText>(R.id.search_et)
         editText.addTextChangedListener {
             searchViewModel.search(it.toString())

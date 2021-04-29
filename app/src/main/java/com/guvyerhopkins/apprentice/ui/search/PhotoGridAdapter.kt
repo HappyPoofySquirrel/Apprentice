@@ -4,8 +4,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.size.Scale
@@ -13,7 +13,7 @@ import com.guvyerhopkins.apprentice.R
 import com.guvyerhopkins.apprentice.network.Photo
 
 class PhotoGridAdapter :
-    ListAdapter<Photo, PhotoGridAdapter.PhotoGridViewHolder>(DiffCallback) {
+    PagedListAdapter<Photo, PhotoGridAdapter.PhotoGridViewHolder>(DiffCallback) {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -26,7 +26,9 @@ class PhotoGridAdapter :
 
     override fun onBindViewHolder(holderGrid: PhotoGridViewHolder, position: Int) {
         val photo = getItem(position)
-        holderGrid.bind(photo)
+        if (photo != null) {
+            holderGrid.bind(photo)
+        }
     }
 
     inner class PhotoGridViewHolder(
@@ -49,7 +51,7 @@ class PhotoGridAdapter :
         }
 
         override fun areContentsTheSame(oldItem: Photo, newItem: Photo): Boolean {
-            return oldItem.src.original == newItem.src.original
+            return oldItem == newItem
         }
     }
 }
