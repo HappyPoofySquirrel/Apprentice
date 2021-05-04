@@ -1,7 +1,7 @@
 package com.guvyerhopkins.apprentice.ui.search
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations.switchMap
 import androidx.lifecycle.ViewModel
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
@@ -12,37 +12,27 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
 
 
-class SearchViewModel : ViewModel() {
+class SearchViewModel(
+    private val ioScope: CoroutineScope = CoroutineScope(Dispatchers.Default),
+    private val dataSourceFactory: PexelsDataSourceFactory = PexelsDataSourceFactory(scope = ioScope)
+) : ViewModel() {
 
-    private val ioScope = CoroutineScope(Dispatchers.Default)
-
-    private val dataSourceFactory = PexelsDataSourceFactory(scope = ioScope)
-
-    private val _state = MutableLiveData<State>()
-    val status: LiveData<State> = _state
+    val networkState: LiveData<State>? =
+        switchMap(dataSourceFactory.source) { it.getNetworkState() }
 
     val photos = LivePagedListBuilder(
         dataSourceFactory, PagedList.Config.Builder()
-            .setInitialLoadSizeHint(24)
+            .setInitialLoadSizeHint(30)
             .setEnablePlaceholders(false)
-            .setPageSize(24 * 2)
+            .setPageSize(30 * 2)
             .build()
     ).build()
 
-    init {
-//        _state.value = State.LOADING
-//        viewModelScope.launch {
-//            try {
-//                _photos.value = retrofitService.getPhotos()
-//                _state.value =State.SUCCESS
-//            } catch (e: Exception) {
-//                _state.value = State.ERROR
-//                _photos.value = listOf()
-//            }
-    }
-
     fun search(query: String) {
-        //if() //return if query did not change
+        if (query == dataSourceFactory.query) {
+            return//return if query did not change
+        }
+
         if (query.length > 2) {
             dataSourceFactory.updateQuery(query.trim())
         }

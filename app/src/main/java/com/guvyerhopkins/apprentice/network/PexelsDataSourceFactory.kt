@@ -5,7 +5,7 @@ import androidx.paging.DataSource
 import kotlinx.coroutines.CoroutineScope
 
 class PexelsDataSourceFactory(
-    private var query: String = "",
+    var query: String = "",
     private val scope: CoroutineScope
 ) : DataSource.Factory<Int, Photo>() {
 

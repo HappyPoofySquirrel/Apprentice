@@ -1,5 +1,5 @@
 package com.guvyerhopkins.apprentice.network
 
 enum class State {
-    SUCCESS, LOADING, ERROR
+    SUCCESS, LOADING, ERROR, NOINTERNET
 }

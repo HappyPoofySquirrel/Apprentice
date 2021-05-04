@@ -12,7 +12,7 @@ import coil.size.Scale
 import com.guvyerhopkins.apprentice.R
 import com.guvyerhopkins.apprentice.network.Photo
 
-class PhotoGridAdapter :
+class PhotoGridAdapter(private val onImagePressed: (String, ImageView) -> Unit) :
     PagedListAdapter<Photo, PhotoGridAdapter.PhotoGridViewHolder>(DiffCallback) {
 
     override fun onCreateViewHolder(
@@ -37,11 +37,14 @@ class PhotoGridAdapter :
     ) : RecyclerView.ViewHolder(view) {
 
         fun bind(photo: Photo) {
-            view.findViewById<ImageView>(R.id.grid_item_iv).load(photo.src.small) {
+            val imageView = view.findViewById<ImageView>(R.id.grid_item_iv)
+            imageView.load(photo.src.small) {
                 scale(Scale.FILL)
                 crossfade(true)
                 placeholder(R.drawable.ic_image_placeholder)
             }
+
+            imageView.setOnClickListener { onImagePressed.invoke(photo.src.large, imageView) }
         }
     }
 

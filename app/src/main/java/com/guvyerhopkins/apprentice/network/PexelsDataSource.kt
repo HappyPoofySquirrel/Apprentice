@@ -23,7 +23,7 @@ class PexelsDataSource(private val query: String, private val scope: CoroutineSc
     }
 
     override fun loadBefore(params: LoadParams<Int>, callback: LoadCallback<Int, Photo>) {
-        val page = params.key //todo might need to check for being on first page
+        val page = params.key
         executeQuery(page, params.requestedLoadSize) {
             callback.onResult(it, page - 1)
         }
@@ -37,10 +37,12 @@ class PexelsDataSource(private val query: String, private val scope: CoroutineSc
     }
 
     private fun executeQuery(page: Int, perPage: Int, callback: (List<Photo>) -> Unit) {
+        networkState.postValue(State.LOADING)
         scope.launch(getJobErrorHandler() + supervisorJob) {
-            delay(200) // To handle user typing case
+            delay(200) // To handle user is still typing
             val photos = repo.getPhotos(page, perPage, query)
-            // ...
+
+            networkState.postValue(State.SUCCESS)
             callback(photos)
         }
     }
@@ -52,7 +54,7 @@ class PexelsDataSource(private val query: String, private val scope: CoroutineSc
 
     override fun invalidate() {
         super.invalidate()
-        supervisorJob.cancelChildren()   // Cancel possible running job to only keep last result searched by user
+        supervisorJob.cancelChildren()
     }
 
     fun refresh() = this.invalidate()
@@ -60,4 +62,3 @@ class PexelsDataSource(private val query: String, private val scope: CoroutineSc
     fun getNetworkState(): LiveData<State> =
         networkState
 }
- 
